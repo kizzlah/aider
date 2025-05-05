@@ -73,6 +73,9 @@ claude-3-5-sonnet-20241022
 
 ANTHROPIC_MODELS = [ln.strip() for ln in ANTHROPIC_MODELS.splitlines() if ln.strip()]
 
+# Add DeepCoder to the list of supported models
+OPENAI_MODELS.append("deepcoder-14b-preview")
+
 # Mapping of model aliases to their canonical names
 MODEL_ALIASES = {
     # Claude models
@@ -458,6 +461,13 @@ class Model(ModelSettings):
             self.examples_as_sys_msg = True
             self.use_temperature = 0.6
             self.extra_params = dict(top_p=0.95)
+            return  # <--
+
+        if "deepcoder-14b-preview" in model:
+            self.edit_format = "diff"
+            self.use_repo_map = True
+            self.use_temperature = True
+            self.system_prompt_prefix = "DeepCoder model active. "
             return  # <--
 
         # use the defaults
