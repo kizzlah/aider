@@ -558,6 +558,14 @@ class TestModels(unittest.TestCase):
             timeout=600,
         )
 
+    def test_deepcoder_settings(self):
+        # Test DeepCoder-specific settings
+        model = Model("deepcoder-14b-preview")
+        self.assertEqual(model.edit_format, "diff")
+        self.assertTrue(model.use_repo_map)
+        self.assertTrue(model.use_temperature)
+        self.assertEqual(model.system_prompt_prefix, "DeepCoder model active. ")
+
 
 if __name__ == "__main__":
     unittest.main()
